@@ -53,6 +53,15 @@ public class Ex1 {
 	 * This function computes a polynomial representation from a set of 2D points on the polynom.
 	 * The solution is based on: //	http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points
 	 * Note: this function only works for a set of points containing up to 3 points, else returns null.
+     * First we check if the points that were given are valid if not, return null.
+     * Then we check the length of each point.
+     * If it is over three or under two return null.
+     * if lx = = 2 //the length is 2 points
+     * double x1 - xx [0] y1= yy[0] x2= xx[1] y2= yy[1] // helps us organize our points
+     * double m = (y1-y2)/(x1-x2) //  finds the gradient (m) of our function
+     * double b = y1- m*x1 // finds the colliding point of the functions
+     * ans = new double {m,b}
+     *
 	 * @param xx
 	 * @param yy
 	 * @return an array of doubles representing the coefficients of the polynom.
@@ -62,11 +71,21 @@ public class Ex1 {
 		int lx = xx.length;
 		int ly = yy.length;
 		if(xx!=null && yy!=null && lx==ly && lx>1 && lx<4) {
-		/** add you code below
 
-		/////////////////// */
-		}
-		return ans;
+            if (lx == 2) {
+                double x1 = xx[0], y1 = yy[0];
+                double x2 = xx[1], y2 = yy[1];
+                double m = (y1 - y2) / (x1 - x2);
+                double b = y1 - m * x1;
+                ans = new double[]{m, b};
+            }
+            else if (lx == 3) {
+
+            }
+            }
+        return ans;
+
+    }
 	}
 	/** Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
 	 * where n is the max degree (over p1, p2) - up to an epsilon (aka EPS) value.
