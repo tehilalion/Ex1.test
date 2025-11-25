@@ -59,8 +59,14 @@ public class Ex1 {
      * if lx = = 2 //the length is 2 points
      * double x1 - xx [0] y1= yy[0] x2= xx[1] y2= yy[1] // helps us organize our points
      * double m = (y1-y2)/(x1-x2) //  finds the gradient (m) of our function
-     * double b = y1- m*x1 // finds the colliding point of the functions
+     * double b = y1- m*x1 // finds the interception point of the functions
      * ans = new double {m,b}
+     * if lx==3 // the length is 3 points
+     * double x1 - xx [0] y1= yy[0] x2= xx[1] y2= yy[1] x3= xx[2] y3= yy[2]// helps us organize our points
+     * we calculate each denominator for each point
+     * if the denom is 0 return null // denominator can never be 0
+     * return new points
+     *
      *
 	 * @param xx
 	 * @param yy
@@ -80,24 +86,42 @@ public class Ex1 {
                 ans = new double[]{m, b};
             }
             else if (lx == 3) {
+                double x1 = xx[0], y1 = yy[0];
+                double x2 = xx[1], y2 = yy[1];
+                double x3 = xx[2], y3 = yy[2];
+                double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
+                if (denom==0){
+                    return null;
+                }
+                double A     = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2));
+                double B     = (x3*x3 * (y1 - y2) + x2*x2 * (y3 - y1) + x1*x1 * (y2 - y3));
+                double C     = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3);
+
+                return new double[]{A,B,C};
 
             }
             }
         return ans;
 
     }
-	}
+
 	/** Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
 	 * where n is the max degree (over p1, p2) - up to an epsilon (aka EPS) value.
 	 * @param p1 first polynomial function
 	 * @param p2 second polynomial function
-	 * @return true iff p1 represents the same polynomial function as p2.
+	 * @return true if p1 represents the same polynomial function as p2.
 	 */
 	public static boolean equals(double[] p1, double[] p2) {
 		boolean ans = true;
-        /** add you code below
+       int poly1;
+       int poly2;
+       for (int i=0;i<p1.length;i++) {
 
-         /////////////////// */
+       }
+        int deg1;
+        int deg2;
+       // int n = Math.max (deg1, deg2)
+
 		return ans;
 	}
 
@@ -226,3 +250,4 @@ public class Ex1 {
 		return ans;
 	}
 }
+
