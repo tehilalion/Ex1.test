@@ -210,7 +210,13 @@ public class Ex1 {
 	}
 	/**
 	 * This function computes the polynomial function which is the sum of two polynomial functions (p1,p2)
-     *
+     * we first check the max length of the polys and make a new length according to the max result we got.
+     * we start a loop
+     * double a = 0
+     * double b = 0
+     * if i<pi.length a=p1[i] // if the index is smaller than the length a = the index
+     * same for b and p2
+     * when a and b have the same index add them together.
 	 * @param p1
 	 * @param p2
 	 * @return
