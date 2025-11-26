@@ -1,4 +1,4 @@
-package assignments.Ex1;
+//package assignments.Ex1;
 
 /**
  * Introduction to Computer Science 2026, Ariel University,
@@ -113,12 +113,13 @@ public class Ex1 {
 	 */
 	public static boolean equals(double[] p1, double[] p2) {
 		boolean ans = true;
+        /*
         double p1
        double p2
         for (int i=0; i<; i++)
         int deg1;
         int deg2;
-
+*/
 		return ans;
 	}
 
@@ -235,12 +236,9 @@ public class Ex1 {
                    b=p2[i];
                }
                ans[i]=a+b;
-
-        }
         return ans;
-
-        }
 	}
+
 	/**
 	 * This function computes the polynomial function which is the multiplication of two polynoms (p1,p2)
 	 * @param p1
@@ -249,7 +247,7 @@ public class Ex1 {
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
         double[] ans = ZERO;//
-
+        return ans;
     }
 	/**
 	 * This function computes the derivative of the p0 polynomial function.
@@ -264,4 +262,4 @@ public class Ex1 {
 		return ans;
 	}
 
-
+}
