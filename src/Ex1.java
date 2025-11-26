@@ -113,14 +113,11 @@ public class Ex1 {
 	 */
 	public static boolean equals(double[] p1, double[] p2) {
 		boolean ans = true;
-       int poly1;
-       int poly2;
-       for (int i=0;i<p1.length;i++) {
-
-       }
+        double p1
+       double p2
+        for (int i=0; i<; i++)
         int deg1;
         int deg2;
-       // int n = Math.max (deg1, deg2)
 
 		return ans;
 	}
@@ -213,16 +210,30 @@ public class Ex1 {
 	}
 	/**
 	 * This function computes the polynomial function which is the sum of two polynomial functions (p1,p2)
+     *
 	 * @param p1
 	 * @param p2
 	 * @return
 	 */
 	public static double[] add(double[] p1, double[] p2) {
 		double [] ans = ZERO;//
-        /** add you code below
+        int l Math.max (p1.length, p2.length);
+        ans = new double [l];
+        for (int i = 0; i < l; i++) {
+           double a = 0;
+           double b = 0;
+           if (i < p1.length) {
+               a=p1[i];
+           }
+               if (i < p2.length) {
+                   b=p2[i];
+               }
+               ans[i]=a+b;
 
-         /////////////////// */
-		return ans;
+        }
+        return ans;
+
+        }
 	}
 	/**
 	 * This function computes the polynomial function which is the multiplication of two polynoms (p1,p2)
@@ -231,12 +242,9 @@ public class Ex1 {
 	 * @return
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
-		double [] ans = ZERO;//
-        /** add you code below
+        double[] ans = ZERO;//
 
-         /////////////////// */
-		return ans;
-	}
+    }
 	/**
 	 * This function computes the derivative of the p0 polynomial function.
 	 * @param po
@@ -249,5 +257,5 @@ public class Ex1 {
          /////////////////// */
 		return ans;
 	}
-}
+
 
