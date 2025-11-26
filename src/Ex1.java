@@ -223,21 +223,21 @@ public class Ex1 {
 	 * @return
 	 */
 	public static double[] add(double[] p1, double[] p2) {
-		double [] ans = ZERO;//
-        int l Math.max (p1.length, p2.length);
-        ans = new double [l];
+        int l = Math.max (p1.length, p2.length);
+      double [] ans = new double [l];
         for (int i = 0; i < l; i++) {
-           double a = 0;
-           double b = 0;
-           if (i < p1.length) {
-               a=p1[i];
-           }
-               if (i < p2.length) {
-                   b=p2[i];
-               }
-               ans[i]=a+b;
+            double a = 0;
+            double b = 0;
+            if (i < p1.length) {
+                a = p1[i];
+            }
+            if (i < p2.length) {
+                b = p2[i];
+            }
+            ans[i] = a + b;
+        }
         return ans;
-	}
+    }
 
 	/**
 	 * This function computes the polynomial function which is the multiplication of two polynoms (p1,p2)
@@ -246,9 +246,22 @@ public class Ex1 {
 	 * @return
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
-        double[] ans = ZERO;//
-        return ans;
+       // double[] ans = ZERO;//
+            int l= Math.max (p1.length, p2.length);
+            double [] ans = new double [l];
+            for (int i = 0; i < l; i++) {
+                double a = 0;
+                double b = 0;
+                if (i < p1.length) {
+                    a=p1[i];
+                }
+                if (i < p2.length) {
+                    b=p2[i];
+                }
+                ans[i]=a*b;
     }
+        return ans;
+        }
 	/**
 	 * This function computes the derivative of the p0 polynomial function.
 	 * @param po
@@ -256,10 +269,15 @@ public class Ex1 {
 	 */
 	public static double[] derivative (double[] po) {
 		double [] ans = ZERO;//
-        /** add you code below
+     if(po!=null && po.length>1) {
+     int len = po.length;
+     ans = new double [len-1];
+     for (int i = 0; i < ans.length; i=i+1) {
+     ans[i] = po[i+1] * (i+1);
+        }
+     }
+     return ans;
+    }
 
-         /////////////////// */
-		return ans;
-	}
 
 }

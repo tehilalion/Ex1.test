@@ -15,12 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class Ex1Test {
-    static final double[] P1 = {2, 0, 3, -1, 0}, P2 = {0.1, 0, 1, 0.1, 3};
-    static double[] po1 = {2, 2}, po2 = {-3, 0.61, 0.2};
-    ;
-    static double[] po3 = {2, 1, -0.7, -0.02, 0.02};
+    static final double[] P1 ={2,0,3, -1,0}, P2 = {0.1,0,1, 0.1,3};
+    static double[] po1 = {2,2}, po2 = {-3, 0.61, 0.2};
+    static double[] po3 = {2,1,-0.7, -0.02,0.02};
     static double[] po4 = {-3, 0.61, 0.2};
-
 
     @Test
     /**
@@ -46,13 +44,10 @@ class Ex1Test {
         assertEquals(expectedb, result[1], 0.001, "intercept should be correct");
     }
 
-}
 
-class Ex1Test {
-    static final double[] P1 ={2,0,3, -1,0}, P2 = {0.1,0,1, 0.1,3};
-    static double[] po1 = {2,2}, po2 = {-3, 0.61, 0.2};;
-    static double[] po3 = {2,1,-0.7, -0.02,0.02};
-    static double[] po4 = {-3, 0.61, 0.2};
+
+
+
 
     @Test
     /**
@@ -236,5 +231,5 @@ class Ex1Test {
         double area = 58.5658;
         assertEquals(a1,area, Ex1.EPS);
     }
-}
 
+}
