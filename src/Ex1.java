@@ -129,7 +129,7 @@ public class Ex1 {
     public static boolean equals(double[] p1, double[] p2) {
         boolean ans = true;
         if (p1 == p2) {
-            return true;
+            return ans;
         }
         int l = Math.max(p1.length, p2.length);
        int N = Math.max(1, l);
@@ -144,16 +144,6 @@ public class Ex1 {
       }
         return ans;
     }
-
-
-
-
-
-
-
-
-
-
 
 
 	/** 
@@ -183,12 +173,22 @@ public class Ex1 {
 	 * @return an x value (x1<=x<=x2) for which |p1(x) - p2(x)| < eps.
 	 */
 	public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps) {
-		double ans = x1;
-        /** add you code below
+        double ans = x1;
 
-         /////////////////// */
-		return ans;
-	}
+        double h = f(p1, x1) - f(p2, x1);
+        double mid = (x1 + x2) / 2;
+        double fm = f(p1, mid) - f(p2, mid);
+        if (Math.abs(fm) < eps) {
+            return mid;
+        }
+        if (h * fm < 0) {
+            return sameValue(p1, p2, x1, mid, eps);
+        } else {
+            return sameValue(p1, p2, x2, mid, eps);
+        }
+    }
+
+
 	/**
 	 * Given a polynomial function (p), a range [x1,x2] and an integer with the number (n) of sample points.
 	 * This function computes an approximation of the length of the function between f(x1) and f(x2) 
@@ -201,7 +201,7 @@ public class Ex1 {
 	 * @param numberOfSegments - (A positive integer value (1,2,...).
 	 * @return the length approximation of the function between f(x1) and f(x2).
 	 */
-	public static double length(double[] p, double x1, double x2, int numberOfSegments) {
+	public static double length (double[] p, double x1, double x2, int numberOfSegments) {
 		double ans = x1;
         /** add you code below
 
