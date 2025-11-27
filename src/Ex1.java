@@ -246,19 +246,19 @@ public class Ex1 {
 	 * @return
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
-       // double[] ans = ZERO;//
-            int l= Math.max (p1.length, p2.length);
+            int l= (p1.length+p2.length-1);
             double [] ans = new double [l];
-            for (int i = 0; i < l; i++) {
-                double a = 0;
-                double b = 0;
-                if (i < p1.length) {
-                    a=p1[i];
+            for (int i = 0; i < l; i=i+1) {
+                double sum = 0.0;
+
+             for (int  a=0; a<p1.length; a=a+1) {
+                  int b = i - a;
+
+                if (b>=0 && b<p2.length) {
+                    sum += p1[a]*p2[b];
                 }
-                if (i < p2.length) {
-                    b=p2[i];
-                }
-                ans[i]=a*b;
+             }
+                ans[i]= sum;
     }
         return ans;
         }
