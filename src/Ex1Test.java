@@ -283,6 +283,60 @@ class Ex1Test {
             assertEquals(expected, Ex1.poly(poly));
         }
 
+    @Test
+    /**
+     * checks what happens when its a straight line
+     */
+    public void testLength1() {
+        double[] p = {0, 1};
+        double x1 = 0;
+        double x2 = 3;
+        int segments = 1000;
+        double result = Ex1.length(p, x1, x2, segments);
+        double expected = (x2 - x1) * Math.sqrt(2);
+        assertEquals(expected, result - x1, 0.01,
+                "Length of straight line y=x should be √2 * (x2−x1)");
+    }
+
+@Test
+/**
+ * checks when it's a horizontial line
+ */
+    public void testLength2() {
+        double[] p = {5};
+        double x1 = -2;
+        double x2 = 4;
+        int segments = 1000;
+        double result = Ex1.length(p, x1, x2, segments);
+        double expected = (x2 - x1);
+        assertEquals (expected, result-x1, 0.01);
+}
+    @Test
+    /**
+     * checks when poly is zero
+     */
+    public void testLength3() {
+        double[] p = {0}; // f(x) = 0
+        double x1 = 1;
+        double x2 = 5;
+        int segments = 1000;
+        double result = Ex1.length(p, x1, x2, segments);
+        double expected = (x2 - x1);
+        assertEquals(expected, result - x1, 0.01);
+    }
+    @Test
+    /**
+     * checks when its a parabola
+     */
+    public void testLength4() {
+        double[] p = {0, 0, 1}; // f(x) = x^2
+        double x1 = 0;
+        double x2 = 1;
+        int segments = 2000;
+        double result = Ex1.length(p, x1, x2, segments);
+        double expected = 0.25 * (2 * Math.sqrt(5) + Math.log(2 + Math.sqrt(5)));
+        assertEquals(expected, result - x1, 0.01);
+    }
 
 
 

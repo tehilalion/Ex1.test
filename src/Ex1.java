@@ -221,9 +221,18 @@ public class Ex1 {
 	 */
 	public static double length (double[] p, double x1, double x2, int numberOfSegments) {
 		double ans = x1;
-        /** add you code below
+       double delta = (x2 - x1)/numberOfSegments;
+        for (int i = 0; i < numberOfSegments; i=i+1) {
+            double x0 = x1 + delta*i;
+            double x1p = x0 + delta;
 
-         /////////////////// */
+           double f0  = f(p, x0);
+           double f1p = f(p, x1p);
+
+           double dx= x1p - x0;
+           double dy= f1p-f0;
+           ans+= Math.sqrt(dx*dx + dy*dy);
+        }
 		return ans;
 	}
 	
