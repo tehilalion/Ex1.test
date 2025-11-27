@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class Ex1Test {
-    static final double[] P1 ={2,0,3, -1,0}, P2 = {0.1,0,1, 0.1,3};
+    static final double[] P1 ={2,0,3, -1,0}, P2 = {0.1,0,1,0.1,3};
     static double[] po1 = {2,2}, po2 = {-3, 0.61, 0.2};
     static double[] po3 = {2,1,-0.7, -0.02,0.02};
     static double[] po4 = {-3, 0.61, 0.2};
@@ -231,5 +231,65 @@ class Ex1Test {
         double area = 58.5658;
         assertEquals(a1,area, Ex1.EPS);
     }
+
+
+        @Test
+        /**
+         * checks when its a normal poly
+         */
+        public void testNormalPolynomial() {
+            double[] poly = {2, 0, 3.1, -1.2};
+            String expected = "-1.2x^3 +3.1x^2 +2.0";
+            assertEquals(expected, Ex1.poly(poly));
+        }
+
+        @Test
+        /**
+         * checks when a poly is all Zero
+         */
+        public void testAllZeros() {
+            double[] poly = {0, 0, 0};
+            String expected = "0";
+            assertEquals(expected, Ex1.poly(poly));
+        }
+
+        @Test
+        /**
+         * checks when a poly is with only one term
+         */
+        public void testSingleTerm() {
+            double[] poly = {0, 0, 5};
+            String expected = "5.0x^2";
+            assertEquals(expected, Ex1.poly(poly));
+        }
+
+        @Test
+        /**
+         * checks when a poly has a negative
+         */
+        public void testNegativeCoefficients() {
+            double[] poly = {-3, 0, -2};
+            String expected = "-2.0x^2-3.0";
+            assertEquals(expected, Ex1.poly(poly));
+        }
+
+        @Test
+        /**
+         * checks when poly is empty
+         */
+        public void testEmptyArray() {
+            double[] poly = {};
+            String expected = "0";
+            assertEquals(expected, Ex1.poly(poly));
+        }
+
+
+
+
+
+
+
+
+
 
 }

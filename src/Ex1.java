@@ -121,7 +121,15 @@ public class Ex1 {
     /**
      * Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
      * where n is the max degree (over p1, p2) - up to an epsilon (aka EPS) value.
-     *
+     * first we check if the polys are equal
+     * if not we check the max length between them giving us a new length
+     * int n
+     * int (i = 0; i < N; i++) // checks the f(0) first and continues from there
+     * we check the results
+     * double dif = Math.abs(res1 - res2);// checks the abs value
+     * if (dif > EPS) sees if its bigger than eps
+     *if it is return false
+     * if not ans
      * @param p1 first polynomial function
      * @param p2 second polynomial function
      * @return true if p1 represents the same polynomial function as p2.
@@ -156,10 +164,20 @@ public class Ex1 {
 		String ans = "";
 		if(poly.length==0) {ans="0";}
 		else {
-            /** add you code below
-
-             /////////////////// */
-		}
+         for (int i = poly.length-1; i >= 0; i--) {
+             double x = poly[i];
+             if(x!=0) {
+                 if (ans.length()!=0) {
+                     if (x>0) ans += " +";
+                     else ans += "";
+                 }
+                 ans  += x;
+                 if (i>= 1) ans += "x";
+                 if (i>= 2) ans += "^" +i;
+             }
+            }
+         if (ans.length() == 0) ans = "0";
+        }
 		return ans;
 	}
 	/**
@@ -274,9 +292,13 @@ public class Ex1 {
 
 	/**
 	 * This function computes the polynomial function which is the multiplication of two polynoms (p1,p2)
+     * we add the lengthes and minus 1 in order to get the right index this is our new length.
+     * we start with sum being 0
+     *
 	 * @param p1
 	 * @param p2
 	 * @return
+     *
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
             int l= (p1.length+p2.length-1);
