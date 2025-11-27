@@ -13,46 +13,61 @@
 
  */
 public class Ex1 {
-	/** Epsilon value for numerical computation, it serves as a "close enough" threshold. */
-	public static final double EPS = 0.001; // the epsilon to be used for the root approximation.
-	/** The zero polynomial function is represented as an array with a single (0) entry. */
-	public static final double[] ZERO = {0};
-	/**
-	 * Computes the f(x) value of the polynomial function at x.
-	 * @param poly - polynomial function
-	 * @param x
-	 * @return f(x) - the polynomial function value at x.
-	 */
-	public static double f(double[] poly, double x) {
-		double ans = 0;
-		for(int i=0;i<poly.length;i++) {
-			double c = Math.pow(x, i);
-			ans += c*poly[i];
-		}
-		return ans;
-	}
-	/** Given a polynomial function (p), a range [x1,x2] and an epsilon eps.
-	 * This function computes an x value (x1<=x<=x2) for which |p(x)| < eps, 
-	 * assuming p(x1)*p(x2) <= 0.
-	 * This function should be implemented recursively.
-	 * @param p - the polynomial function
-	 * @param x1 - minimal value of the range
-	 * @param x2 - maximal value of the range
-	 * @param eps - epsilon (positive small value (often 10^-3, or 10^-6).
-	 * @return an x value (x1<=x<=x2) for which |p(x)| < eps.
-	 */
-	public static double root_rec(double[] p, double x1, double x2, double eps) {
-		double f1 = f(p,x1);
-		double x12 = (x1+x2)/2;
-		double f12 = f(p,x12);
-		if (Math.abs(f12)<eps) {return x12;}
-		if(f12*f1<=0) {return root_rec(p, x1, x12, eps);}
-		else {return root_rec(p, x12, x2, eps);}
-	}
-	/**
-	 * This function computes a polynomial representation from a set of 2D points on the polynom.
-	 * The solution is based on: //	http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points
-	 * Note: this function only works for a set of points containing up to 3 points, else returns null.
+    /**
+     * Epsilon value for numerical computation, it serves as a "close enough" threshold.
+     */
+    public static final double EPS = 0.001; // the epsilon to be used for the root approximation.
+    /**
+     * The zero polynomial function is represented as an array with a single (0) entry.
+     */
+    public static final double[] ZERO = {0};
+
+    /**
+     * Computes the f(x) value of the polynomial function at x.
+     *
+     * @param poly - polynomial function
+     * @param x
+     * @return f(x) - the polynomial function value at x.
+     */
+    public static double f(double[] poly, double x) {
+        double ans = 0;
+        for (int i = 0; i < poly.length; i++) {
+            double c = Math.pow(x, i);
+            ans += c * poly[i];
+        }
+        return ans;
+    }
+
+    /**
+     * Given a polynomial function (p), a range [x1,x2] and an epsilon eps.
+     * This function computes an x value (x1<=x<=x2) for which |p(x)| < eps,
+     * assuming p(x1)*p(x2) <= 0.
+     * This function should be implemented recursively.
+     *
+     * @param p   - the polynomial function
+     * @param x1  - minimal value of the range
+     * @param x2  - maximal value of the range
+     * @param eps - epsilon (positive small value (often 10^-3, or 10^-6).
+     * @return an x value (x1<=x<=x2) for which |p(x)| < eps.
+     */
+    public static double root_rec(double[] p, double x1, double x2, double eps) {
+        double f1 = f(p, x1);
+        double x12 = (x1 + x2) / 2;
+        double f12 = f(p, x12);
+        if (Math.abs(f12) < eps) {
+            return x12;
+        }
+        if (f12 * f1 <= 0) {
+            return root_rec(p, x1, x12, eps);
+        } else {
+            return root_rec(p, x12, x2, eps);
+        }
+    }
+
+    /**
+     * This function computes a polynomial representation from a set of 2D points on the polynom.
+     * The solution is based on: //	http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points
+     * Note: this function only works for a set of points containing up to 3 points, else returns null.
      * First we check if the points that were given are valid if not, return null.
      * Then we check the length of each point.
      * If it is over three or under two return null.
@@ -67,16 +82,15 @@ public class Ex1 {
      * if the denom is 0 return null // denominator can never be 0
      * return new points
      *
-     *
-	 * @param xx
-	 * @param yy
-	 * @return an array of doubles representing the coefficients of the polynom.
-	 */
-	public static double[] PolynomFromPoints(double[] xx, double[] yy) {
-		double [] ans = null;
-		int lx = xx.length;
-		int ly = yy.length;
-		if(xx!=null && yy!=null && lx==ly && lx>1 && lx<4) {
+     * @param xx
+     * @param yy
+     * @return an array of doubles representing the coefficients of the polynom.
+     */
+    public static double[] PolynomFromPoints(double[] xx, double[] yy) {
+        double[] ans = null;
+        int lx = xx.length;
+        int ly = yy.length;
+        if (xx != null && yy != null && lx == ly && lx > 1 && lx < 4) {
 
             if (lx == 2) {
                 double x1 = xx[0], y1 = yy[0];
@@ -84,44 +98,63 @@ public class Ex1 {
                 double m = (y1 - y2) / (x1 - x2);
                 double b = y1 - m * x1;
                 ans = new double[]{m, b};
-            }
-            else if (lx == 3) {
+            } else if (lx == 3) {
                 double x1 = xx[0], y1 = yy[0];
                 double x2 = xx[1], y2 = yy[1];
                 double x3 = xx[2], y3 = yy[2];
                 double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
-                if (denom==0){
+                if (denom == 0) {
                     return null;
                 }
-                double A     = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2));
-                double B     = (x3*x3 * (y1 - y2) + x2*x2 * (y3 - y1) + x1*x1 * (y2 - y3));
-                double C     = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3);
+                double A = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2));
+                double B = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3));
+                double C = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3);
 
-                return new double[]{A,B,C};
+                return new double[]{A, B, C};
 
             }
-            }
+        }
         return ans;
 
     }
 
-	/** Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
-	 * where n is the max degree (over p1, p2) - up to an epsilon (aka EPS) value.
-	 * @param p1 first polynomial function
-	 * @param p2 second polynomial function
-	 * @return true if p1 represents the same polynomial function as p2.
-	 */
-	public static boolean equals(double[] p1, double[] p2) {
-		boolean ans = true;
-        /*
-        double p1
-       double p2
-        for (int i=0; i<; i++)
-        int deg1;
-        int deg2;
-*/
-		return ans;
-	}
+    /**
+     * Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
+     * where n is the max degree (over p1, p2) - up to an epsilon (aka EPS) value.
+     *
+     * @param p1 first polynomial function
+     * @param p2 second polynomial function
+     * @return true if p1 represents the same polynomial function as p2.
+     */
+    public static boolean equals(double[] p1, double[] p2) {
+        boolean ans = true;
+        if (p1 == p2) {
+            return true;
+        }
+        int l = Math.max(p1.length, p2.length);
+       int N = Math.max(1, l);
+      for (int i = 0; i < N; i++) {
+          double x = i;
+          double res1 = f(p1, x);
+          double res2 = f(p2, x);
+          double dif = Math.abs(res1 - res2);
+          if (dif > EPS) {
+              return false;
+          }
+      }
+        return ans;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 	/** 
 	 * Computes a String representing the polynomial function.
@@ -280,4 +313,39 @@ public class Ex1 {
     }
 
 
+
+
+   /** public static boolean equals(double[] p1, double[] p2) {
+        boolean ans = true;
+        if (p1==p2) {
+            return true;
+        }
+        double [] longer;
+        double [] shorter;
+        if (p1.length > p2.length) {
+            longer = p1;
+            shorter = p2;
+        }
+        else{
+            longer = p2;
+            shorter = p1;
+        }
+        int minLen = shorter.length;
+        int maxLen = longer.length;
+        for (int i = 0; i < minLen; i++) {
+            double d = Math.abs(shorter [i] - longer [i]);
+            if (d > EPS) {
+                return false;
+            }
+        }
+        for (int i = minLen; i < maxLen; i++) {
+            double d = Math.abs(longer[i]);
+            if (d > EPS) {
+                return false;
+            }
+        }
+        return ans;
+    }
+
+    */
 }
