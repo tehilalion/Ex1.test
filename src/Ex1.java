@@ -249,6 +249,20 @@ public class Ex1 {
 	 * Given two polynomial functions (p1,p2), a range [x1,x2] and an integer representing the number of Trapezoids between the functions (number of samples in on each polynom).
 	 * This function computes an approximation of the area between the polynomial functions within the x-range.
 	 * The area is computed using Riemann's like integral (https://en.wikipedia.org/wiki/Riemann_integral)
+     *
+     * we start by giving our helper function "intersection". This will find us our intersection point.
+     * now we move on to our area function.
+     *   double delta = (x2 - x1) / numberOfTrapezoid; // finds the width of each section
+     *    double x0 = x1 + delta * i; // finds the left limit
+     *    double x1p = x0 + delta; // finds the right limit
+     * double f0 = f(p1, x0) - f(p2, x0);
+     *  double f1p = f(p1, x1p) - f(p2, x1p); // finds the function that is the difference between to points
+     *  if (f0 * f1p >= 0)
+     *    ans += 0.5 * (Math.abs(f0) + Math.abs(f1p)) * delta; // regular equation of finding the area of a trapizoid
+     *    else - if there is a intersection point then we split the function in two, the left side and the right.
+     *    we check the area of each side and put them together thus giving us the sum we were looking for.
+     *
+     *
 	 * @param p1 - first polynomial function
 	 * @param p2 - second polynomial function
 	 * @param x1 - minimal value of the range
@@ -257,55 +271,9 @@ public class Ex1 {
 	 * @return the approximated area between the two polynomial functions within the [x1,x2] range.
     */
 
-    /**
-    public static double area(double[] p1, double[] p2, double x1, double x2, int numberOfTrapezoid) {
-
-        if (numberOfTrapezoid <= 0 || x1 == x2) {
-            return 0;
-        }
-
-
-        if (x1 > x2) {
-            double tmp = x1;
-            x1 = x2;
-            x2 = tmp;
-        }
-
-        double ans = 0.0;
-        double delta = (x2 - x1) / numberOfTrapezoid;
-
-        for (int i = 0; i < numberOfTrapezoid; i++) {
-            double a = x1 + delta * i;
-            double b = a + delta;
-
-
-            double fa = f(p1, a) - f(p2, a);
-            double fb = f(p1, b) - f(p2, b);
-
-            if (fa * fb >= 0) {
-                ans += 0.5 * (Math.abs(fa) + Math.abs(fb)) * (b - a);
-            } else {
-
-                double xr = sameValue(p1, p2, a, b, Ex1.EPS);
-
-                if (Double.isNaN(xr) || xr <= a || xr >= b) {
-                    xr = a - fa * (b - a) / (fb - fa);
-                }
-
-                double fr = f(p1, xr) - f(p2, xr); // should be ~0
-
-                ans += 0.5 * (Math.abs(fa) + Math.abs(fr)) * (xr - a);
-                ans += 0.5 * (Math.abs(fr) + Math.abs(fb)) * (b - xr);
-            }
-        }
-        return ans;
-    }
-    */
-
 
     public static double intersection(double[] p1, double[] p2, double a, double b) {
         double xr = sameValue(p1, p2, a, b, Ex1.EPS);
-
         if (Double.isNaN(xr) || xr <= a || xr >= b) {
             double f0 = f(p1, a) - f(p2, a);
             double f1 = f(p1, b) - f(p2, b);
@@ -318,31 +286,26 @@ public class Ex1 {
         if (numberOfTrapezoid <= 0 || x1 == x2) {
             return 0;
         }
-
         double ans = 0.0;
         double delta = (x2 - x1) / numberOfTrapezoid;
-
         for (int i = 0; i < numberOfTrapezoid; i++) {
             double x0 = x1 + delta * i;
             double x1p = x0 + delta;
-
             double f0 = f(p1, x0) - f(p2, x0);
             double f1p = f(p1, x1p) - f(p2, x1p);
-
             if (f0 * f1p >= 0) {
-                ans += 0.5 * (Math.abs(f0) + Math.abs(f1p)) * delta;
-            } else {
-                double xr = intersection(p1, p2, x0, x1p);
 
+                ans += 0.5 * (Math.abs(f0) + Math.abs(f1p)) * delta;
+            }
+            else {
+
+                double xr = intersection(p1, p2, x0, x1p);
                 double delta1 = xr - x0;
                 double delta2 = x1p - xr;
-
                 ans += 0.5 * Math.abs(f0) * delta1;
-
                 ans += 0.5 * Math.abs(f1p) * delta2;
             }
         }
-
         return ans;
     }
 
@@ -356,13 +319,78 @@ public class Ex1 {
 	 * @param p - a String representing polynomial function.
 	 * @return
 	 */
-	public static double[] getPolynomFromString(String p) {
-		double [] ans = ZERO;//  -1.0x^2 +3.0x +2.0
+    public static double getA(String monom) {
+        monom = monom.replaceAll("", "");
+
+        // Case 1: constant (no x)
+        if (!monom.contains("x")) {
+            return Double.parseDouble(monom);
+        }
+
+        int xIndex = monom.indexOf("x");
+
+        // Case 2: starts with x → 1
+        if (xIndex == 0) {
+            return 1.0;
+        }
+
+        // Case 3: "-x"
+        if (monom.substring(0, xIndex).equals("-")) {
+            return -1.0;
+        }
+
+        // Case 4: general ax^b
+        return Double.parseDouble(monom.substring(0, xIndex));
+    }
+
+    public static int getB(String monom) {
+        monom = monom.replaceAll(" ", "");
+
+        if (!monom.contains("x")) return 0;
+
+        if (monom.contains("^")) {
+            return Integer.parseInt(monom.substring(monom.indexOf("^") + 1));
+        }
+
+        return 1; // like "x", "-x", "5x"
+    }
+
+
+    public static double[] getPolynomFromString(String p) {
+        if (p == null || p.length() == 0) return ZERO;
+        // Normalize string
+        p = p.replaceAll(" ", "");
+        p = p.replace("-", "+-");
+        if (p.startsWith("+")) p = p.substring(1);
+
+        String[] terms = p.split("\\+");
+        // First pass: find max power
+        int maxPower = 0;
+        for (String t : terms) {
+            if (t.length() == 0) continue;
+            int b = getB(t);
+            if (b > maxPower) maxPower = b;
+        }
+        double[] ans = new double[maxPower + 1];
+
+        // Second pass: fill coefficients
+        for (String t : terms) {
+            if (t.length() == 0) continue;
+
+            double a = getA(t);
+            int b = getB(t);
+            ans[b] += a;
+        }
+        return ans;
+    }
+
+    //  public static double[] getPolynomFromString(String p) {
+		//double [] ans = ZERO;//  -1.0x^2 +3.0x +2.0
         /** add you code below
 
          /////////////////// */
-		return ans;
-	}
+	//	return ans;
+	//}
 	/**
 	 * This function computes the polynomial function which is the sum of two polynomial functions (p1,p2)
      * we first check the max length of the polys and make a new length according to the max result we got.
@@ -438,49 +466,7 @@ public class Ex1 {
     }
 
 
-    public static int getB(String monom) {
-        monom = monom.replaceAll(" ", "");
-        if (!monom.contains("x")) {
-            return 0;
-        }
-        if (monom.contains("^")) {
-            return Integer.parseInt(monom.substring(monom.indexOf("^") + 1));
-        }
-        return 1;
-    }
 
 
-   /** public static boolean equals(double[] p1, double[] p2) {
-        boolean ans = true;
-        if (p1==p2) {
-            return true;
-        }
-        double [] longer;
-        double [] shorter;
-        if (p1.length > p2.length) {
-            longer = p1;
-            shorter = p2;
-        }
-        else{
-            longer = p2;
-            shorter = p1;
-        }
-        int minLen = shorter.length;
-        int maxLen = longer.length;
-        for (int i = 0; i < minLen; i++) {
-            double d = Math.abs(shorter [i] - longer [i]);
-            if (d > EPS) {
-                return false;
-            }
-        }
-        for (int i = minLen; i < maxLen; i++) {
-            double d = Math.abs(longer[i]);
-            if (d > EPS) {
-                return false;
-            }
-        }
-        return ans;
-    }
 
-    */
 }
