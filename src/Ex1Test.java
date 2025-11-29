@@ -232,7 +232,15 @@ class Ex1Test {
         assertEquals(a1,area, Ex1.EPS);
     }
 
-
+ /** @Test
+   public void testGetB1() {}
+    String [] monoms = {"x" , "1x^1", "3", "-32.1", "-3.1x^3"};
+    int [] res= {1,1,0,0,3};
+    for(int i=0; i<res.length; i=i+1) {
+        int r= Ex1.getB(monoms[i]);
+        assertEquals(res[i], r);
+    }
+*/
         @Test
         /**
          * checks when its a normal poly

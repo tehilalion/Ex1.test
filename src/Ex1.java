@@ -213,6 +213,14 @@ public class Ex1 {
 	 * using n inner sample points and computing the segment-path between them.
 	 * assuming x1 < x2. 
 	 * This function should be implemented iteratively (none recursive).
+     * double delta = (x2 - x1)/numberOfSegments; // finds delta - the distance between each segment
+     * for (int i = 0; i < numberOfSegments; i=i+1) {
+     *             double x0 = x1 + delta*i; // the starting segment
+     *             double x1p = x0 + delta; // the ending segment (p- for prime)
+     *       double f0  = f(p, x0); // the y of the start found using the f function we already have
+     *       double f1p = f(p, x1p); // the y of the end
+     *       find the changing point between the two polys dx and dy
+     * by using pitagoras  (Math.sqrt(dx*dx + dy*dy);) we find the distance between the points
 	 * @param p - the polynomial function
 	 * @param x1 - minimal value of the range
 	 * @param x2 - maximal value of the range
@@ -231,6 +239,7 @@ public class Ex1 {
 
            double dx= x1p - x0;
            double dy= f1p-f0;
+
            ans+= Math.sqrt(dx*dx + dy*dy);
         }
 		return ans;
@@ -246,14 +255,99 @@ public class Ex1 {
 	 * @param x2 - maximal value of the range
 	 * @param numberOfTrapezoid - a natural number representing the number of Trapezoids between x1 and x2.
 	 * @return the approximated area between the two polynomial functions within the [x1,x2] range.
-	 */
-	public static double area(double[] p1,double[]p2, double x1, double x2, int numberOfTrapezoid) {
-		double ans = 0;
-        /** add you code below
+    */
 
-         /////////////////// */
-		return ans;
-	}
+    /**
+    public static double area(double[] p1, double[] p2, double x1, double x2, int numberOfTrapezoid) {
+
+        if (numberOfTrapezoid <= 0 || x1 == x2) {
+            return 0;
+        }
+
+
+        if (x1 > x2) {
+            double tmp = x1;
+            x1 = x2;
+            x2 = tmp;
+        }
+
+        double ans = 0.0;
+        double delta = (x2 - x1) / numberOfTrapezoid;
+
+        for (int i = 0; i < numberOfTrapezoid; i++) {
+            double a = x1 + delta * i;
+            double b = a + delta;
+
+
+            double fa = f(p1, a) - f(p2, a);
+            double fb = f(p1, b) - f(p2, b);
+
+            if (fa * fb >= 0) {
+                ans += 0.5 * (Math.abs(fa) + Math.abs(fb)) * (b - a);
+            } else {
+
+                double xr = sameValue(p1, p2, a, b, Ex1.EPS);
+
+                if (Double.isNaN(xr) || xr <= a || xr >= b) {
+                    xr = a - fa * (b - a) / (fb - fa);
+                }
+
+                double fr = f(p1, xr) - f(p2, xr); // should be ~0
+
+                ans += 0.5 * (Math.abs(fa) + Math.abs(fr)) * (xr - a);
+                ans += 0.5 * (Math.abs(fr) + Math.abs(fb)) * (b - xr);
+            }
+        }
+        return ans;
+    }
+    */
+
+
+    public static double intersection(double[] p1, double[] p2, double a, double b) {
+        double xr = sameValue(p1, p2, a, b, Ex1.EPS);
+
+        if (Double.isNaN(xr) || xr <= a || xr >= b) {
+            double f0 = f(p1, a) - f(p2, a);
+            double f1 = f(p1, b) - f(p2, b);
+            xr = a - f0 * (b - a) / (f1 - f0);
+        }
+        return xr;
+    }
+
+    public static double area(double[] p1, double[] p2, double x1, double x2, int numberOfTrapezoid) {
+        if (numberOfTrapezoid <= 0 || x1 == x2) {
+            return 0;
+        }
+
+        double ans = 0.0;
+        double delta = (x2 - x1) / numberOfTrapezoid;
+
+        for (int i = 0; i < numberOfTrapezoid; i++) {
+            double x0 = x1 + delta * i;
+            double x1p = x0 + delta;
+
+            double f0 = f(p1, x0) - f(p2, x0);
+            double f1p = f(p1, x1p) - f(p2, x1p);
+
+            if (f0 * f1p >= 0) {
+                ans += 0.5 * (Math.abs(f0) + Math.abs(f1p)) * delta;
+            } else {
+                double xr = intersection(p1, p2, x0, x1p);
+
+                double delta1 = xr - x0;
+                double delta2 = x1p - xr;
+
+                ans += 0.5 * Math.abs(f0) * delta1;
+
+                ans += 0.5 * Math.abs(f1p) * delta2;
+            }
+        }
+
+        return ans;
+    }
+
+
+
 	/**
 	 * This function computes the array representation of a polynomial function from a String
 	 * representation. Note:given a polynomial function represented as a double array,
@@ -344,6 +438,16 @@ public class Ex1 {
     }
 
 
+    public static int getB(String monom) {
+        monom = monom.replaceAll(" ", "");
+        if (!monom.contains("x")) {
+            return 0;
+        }
+        if (monom.contains("^")) {
+            return Integer.parseInt(monom.substring(monom.indexOf("^") + 1));
+        }
+        return 1;
+    }
 
 
    /** public static boolean equals(double[] p1, double[] p2) {
