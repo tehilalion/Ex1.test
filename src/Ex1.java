@@ -157,6 +157,10 @@ public class Ex1 {
 	/** 
 	 * Computes a String representing the polynomial function.
 	 * For example the array {2,0,3.1,-1.2} will be presented as the following String  "-1.2x^3 +3.1x^2 +2.0"
+     * we start by saying if the length is 0 give back "0".
+     * we check what kind of symbol is infront.
+     * if (i>= 1) ans += "x"; // if the index is 1 or over then "x"
+     *  if (i>= 2) ans += "^" +i;// if the index is over 2 then "^"
 	 * @param poly the polynomial function represented as an array of doubles
 	 * @return String representing the polynomial function:
 	 */
