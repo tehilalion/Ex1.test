@@ -453,6 +453,8 @@ public class Ex1 {
         }
 	/**
 	 * This function computes the derivative of the p0 polynomial function.
+     * The method returns a new array representing the derivative polynomial.
+     *  * If the input polynomial is  null or has length 1 (a constant polynomial), the method returns zero
 	 * @param po
 	 * @return
 	 */
