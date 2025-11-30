@@ -315,56 +315,66 @@ public class Ex1 {
 	 * This function computes the array representation of a polynomial function from a String
 	 * representation. Note:given a polynomial function represented as a double array,
 	 * getPolynomFromString(poly(p)) should return an array equals to p.
-	 * 
+	 * we start with getA function gets a monom and changes it to be a coefficient number.
+     * if (!monom.contains("x")) {
+     *  return Double.parseDouble(monom);// if it doesnt contain x skip it.
+     *  but if it does -int xi = monom.indexOf("x"); // finds the index x is on
+     *  if (monom.substring(0, xi).equals("-")) {
+     *    return -1.0;// if the number starts  with - return -1.
+     * We continue to function getB which helps us find the power of the function.
+     * if the function doesnt have x skip it if it contains "^" find the index its on and add 1
+     * (all of these functions connect to our string from poly function)
+     * Now we move on to out getPloyFromString function
+     * if (p == null || p.length() == 0) return ZERO; // return 0 if the length is 0 or null
+     *     p = p.replaceAll(" ", "");
+     *         p = p.replace("-", "+-");
+     *         if (p.startsWith("+")) p = p.substring(1); // replaces our symbols
+     *  String[] terms = p.split("\\+"); // splits pur function so we can calculate
+     *  maxpower finds the highest power there is.
+     *  once we do this we add 1 to find the correct index.
+     *  for (String t : terms) {
+     *             if (t.length() == 0) continue; // we move on to our monoms and checks them according to our functions.
+     *  double a = getA(t);
+     *             int b = getB(t);
+     *             ans[b] += a;
+     *             return ans;
+     *
 	 * @param p - a String representing polynomial function.
 	 * @return
 	 */
     public static double getA(String monom) {
-        monom = monom.replaceAll("", "");
-
-        // Case 1: constant (no x)
+        monom = monom.replaceAll(" ", "");
         if (!monom.contains("x")) {
             return Double.parseDouble(monom);
         }
-
-        int xIndex = monom.indexOf("x");
-
-        // Case 2: starts with x → 1
-        if (xIndex == 0) {
+        int xi = monom.indexOf("x");
+        if (xi == 0) {
             return 1.0;
         }
-
-        // Case 3: "-x"
-        if (monom.substring(0, xIndex).equals("-")) {
+        if (monom.substring(0, xi).equals("-")) {
             return -1.0;
         }
-
-        // Case 4: general ax^b
-        return Double.parseDouble(monom.substring(0, xIndex));
+        return Double.parseDouble(monom.substring(0, xi));
     }
 
     public static int getB(String monom) {
         monom = monom.replaceAll(" ", "");
-
         if (!monom.contains("x")) return 0;
-
         if (monom.contains("^")) {
             return Integer.parseInt(monom.substring(monom.indexOf("^") + 1));
         }
-
-        return 1; // like "x", "-x", "5x"
+        return 1;
     }
 
 
     public static double[] getPolynomFromString(String p) {
         if (p == null || p.length() == 0) return ZERO;
-        // Normalize string
         p = p.replaceAll(" ", "");
         p = p.replace("-", "+-");
         if (p.startsWith("+")) p = p.substring(1);
 
         String[] terms = p.split("\\+");
-        // First pass: find max power
+
         int maxPower = 0;
         for (String t : terms) {
             if (t.length() == 0) continue;
@@ -373,7 +383,6 @@ public class Ex1 {
         }
         double[] ans = new double[maxPower + 1];
 
-        // Second pass: fill coefficients
         for (String t : terms) {
             if (t.length() == 0) continue;
 
@@ -384,13 +393,7 @@ public class Ex1 {
         return ans;
     }
 
-    //  public static double[] getPolynomFromString(String p) {
-		//double [] ans = ZERO;//  -1.0x^2 +3.0x +2.0
-        /** add you code below
 
-         /////////////////// */
-	//	return ans;
-	//}
 	/**
 	 * This function computes the polynomial function which is the sum of two polynomial functions (p1,p2)
      * we first check the max length of the polys and make a new length according to the max result we got.
