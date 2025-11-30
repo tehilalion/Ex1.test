@@ -148,6 +148,33 @@ class Ex1Test {
         assertTrue(Ex1.equals(Ex1.ZERO, dp3));
         assertTrue(Ex1.equals(dp4, dp3));
     }
+
+
+    @Test
+    public void testGetA1() {
+        String[] monoms = {"x", "1x^1", "3", "-32.1", "-3.1x^3", "-x", "5x"};
+        double[] res = {1.0, 1.0, 3.0, -32.1, -3.1, -1.0, 5.0};
+
+        for (int i = 0; i < res.length; i++) {
+            double a = Ex1.getA(monoms[i]);
+            assertEquals(res[i], a, Ex1.EPS);
+        }
+    }
+
+
+    @Test
+    public void testGetB1() {
+        String [] monoms = {"x" , "1x^1", "3", "-32.1", "-3.1x^3"};
+        int [] res = {1, 1, 0, 0, 3};
+
+        for(int i = 0; i < res.length; i++) {
+            int r = Ex1.getB(monoms[i]);
+            assertEquals(res[i], r);
+        }
+    }
+
+
+
     @Test
     /**
      * Tests the parsing of a polynom in a String like form.
@@ -189,6 +216,16 @@ class Ex1Test {
         double rs1 = Ex1.sameValue(po1,po2, x1, x2, Ex1.EPS);
         double rs2 = Ex1.sameValue(po2,po1, x1, x2, Ex1.EPS);
         assertEquals(rs1,rs2, Ex1.EPS);
+    }
+
+    @Test
+    public void testIntersection() {
+        double[] p1 = {0, 1};
+        double[] p2 = {0};
+        double a = -2;
+        double b = 2;
+        double xr = Ex1.intersection(p1, p2, a, b);
+        assertEquals(0.0, xr, Ex1.EPS);
     }
     @Test
     /**
